@@ -1,0 +1,21 @@
+#version 400 core
+
+in vec2 pass_Tcoords;
+in float visibility;
+
+out vec4 outColour;
+
+uniform sampler2D textureSampler;
+uniform vec3 skyColour;
+
+
+void main(void){
+
+	vec4 textureColour = texture(textureSampler, pass_Tcoords);
+	if(textureColour.a < 0.5){
+		discard;
+	}
+	
+	outColour = texture(textureSampler, pass_Tcoords);
+	outColour = mix(vec4(skyColour,1.0), outColour, visibility);
+}
